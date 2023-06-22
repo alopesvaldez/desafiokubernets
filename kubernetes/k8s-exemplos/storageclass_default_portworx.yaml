@@ -1,0 +1,16 @@
+# https://github.com/portworx/px-docs/blob/gh-pages/scheduler/kubernetes/shared-volumes.md
+#   Shared: true : testando para usar no projeto kubeflow
+#   https://www.youtube.com/watch?v=AIVABlClYAU
+# kubectl create -f https://tonanuvem.github.io/k8s-exemplos/storageclass_default_portworx.yaml
+# kubectl patch storageclass sc-default-portworx -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kind: StorageClass
+#apiVersion: storage.k8s.io/v1beta1
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: sc-default-portworx
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/portworx-volume
+parameters:
+  repl: "2"
+  shared: "true"

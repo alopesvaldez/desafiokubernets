@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-deployment
+  labels:
+    app: fiapslackpage
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: fiapslackpage
+  template:
+    metadata:
+      labels:
+        app: fiapslackpage
+    spec:
+      containers:
+        - name: fiapslackpage
+          image: "tonanuvem/fiap_slackpage"
+          ports:
+            - name: http
+              containerPort: 80
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2

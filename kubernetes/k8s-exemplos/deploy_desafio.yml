@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-deployment
+  labels:
+    app: fiappage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiappage
+  template:
+    metadata:
+      labels:
+        app: fiappage
+    spec:
+      containers:
+        - name: fiappage
+          image: "andrevaldez/desafiokube"
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: NAME
+              value: "Andre Lopes Valdez"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
